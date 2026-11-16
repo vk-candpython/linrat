@@ -48,28 +48,30 @@
  *****************************/
 
 
-typedef void                 VOID;
+typedef void VOID;
 
-typedef _Bool                BOOLEAN;
+typedef _Bool BOOLEAN;
 
-typedef char                 CHAR;
-typedef unsigned char        BYTE;
+typedef char          CHAR;
+typedef unsigned char BYTE;
 
-typedef __INT8_TYPE__        INT8;
-typedef __INT16_TYPE__       INT16;
-typedef __INT32_TYPE__       INT32;
-typedef __INT64_TYPE__       INT64;
+typedef long int          LONG;
+typedef unsigned long int ULONG;
 
-typedef __UINT8_TYPE__       UINT8;
-typedef __UINT16_TYPE__      UINT16;
-typedef __UINT32_TYPE__      UINT32;
-typedef __UINT64_TYPE__      UINT64;
 
-typedef long int             LONG;
-typedef unsigned long int    ULONG;
+typedef __INT8_TYPE__  INT8;
+typedef __INT16_TYPE__ INT16;
+typedef __INT32_TYPE__ INT32;
+typedef __INT64_TYPE__ INT64;
 
-typedef __PTRDIFF_TYPE__     SSIZE_T;
-typedef __SIZE_TYPE__        SIZE_T;
+typedef __UINT8_TYPE__  UINT8;
+typedef __UINT16_TYPE__ UINT16;
+typedef __UINT32_TYPE__ UINT32;
+typedef __UINT64_TYPE__ UINT64;
+
+
+typedef __PTRDIFF_TYPE__ SSIZE_T;
+typedef __SIZE_TYPE__    SIZE_T;
 
 
 
@@ -106,7 +108,7 @@ typedef __SIZE_TYPE__        SIZE_T;
 #define GCC_UNREACHABLE_() GCC_FUNC_(unreachable)()
 
 /* Load integer TYPE from memory at pointer (unaligned-safe) */
-#define LOAD_INT_(ptr, TYPE) ({                     \
+#define LOAD_TYPE_(ptr, TYPE) ({                    \
     TYPE _val;                                      \
     GCC_FUNC_(memcpy)(&_val, ptr, sizeof(TYPE));    \
     _val;                                           \
@@ -307,9 +309,9 @@ DEC_STRUCT (sockaddr_in) {
 
 
 
-/**************************************
- *     UNIX-FUNCTION-DECLARATIONS     *
- **************************************/
+/****************************************
+ *     SYSTEM-FUNCTION-DECLARATIONS     *
+ ****************************************/
 
 
 #define sys_call(num, ...)                          \

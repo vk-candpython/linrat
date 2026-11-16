@@ -25,6 +25,7 @@ INTERNAL LINUX (x86_64) DECLARATIONS */
 
 
 typedef UINT64 idsz_t;
+typedef UINT32 datasz_t;
 typedef UINT16 cmdsz_t;
 
 
@@ -32,17 +33,20 @@ DEC_STRUCT (session_handshake_t) {
     idsz_t serverID;
     idsz_t sessionID;
     BYTE   nonce[LR_NONCE_SIZE];
+    BYTE   pad0[4];
 };
 
 DEC_STRUCT (server_request_t) {
-    idsz_t  sessionID;
-    cmdsz_t command;
-    UINT32  paramSize;
+    idsz_t   id;
+    cmdsz_t  command;
+    BYTE     pad0[2];
+    datasz_t paramSize;
 };
 
 DEC_STRUCT (agent_response_t) {
-    idsz_t sessionID;
-    UINT32 dataSize;
+    idsz_t   id;
+    datasz_t dataSize;
+    BYTE     pad0[4];
 };
 
 

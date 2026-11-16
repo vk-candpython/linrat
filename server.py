@@ -41,7 +41,13 @@ def start_server():
         conn, addr = sock.accept()
 
         with conn:
-            conn.sendall()
+            sessionID = libOs.urandom(8)
+            nonce     = libOs.urandom(12)
+            conn.sendall(LR_SERVER_ID + sessionID + nonce + b'\x00\x00\x00\x00')
+
+
+            conn.sendall(sessionID + b'\x11\x00' + b'\x00\x00' + b'\x00\x00\x00\x00')
+
 
 
 
