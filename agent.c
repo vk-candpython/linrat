@@ -124,7 +124,7 @@ VOID Main(VOID) {
         sys_sleep_ms(delayMs);
     }
 
-    UNREACHABLE_();
+    GCC_UNREACHABLE_();
 }
 
 
@@ -132,9 +132,9 @@ VOID Main(VOID) {
 GCC_ATTR_(naked, noreturn, visibility("hidden"))
 VOID _start(VOID) {
     GCC_ASM_ (
-        "andq $-16, %rsp\n\t" // 1. Enforce 16-byte stack alignment
-        "subq $8,   %rsp\n\t" // 2. Align stack for SysV AMD64 function entry
-        "jmp Main\n\t"        // 3. Direct PC-relative jump (PIE-safe)
+        "andq $-16, %rsp\n" // 1. Enforce 16-byte stack alignment
+        "subq $8,   %rsp\n" // 2. Align stack for SysV AMD64 function entry
+        "jmp Main"          // 3. Direct PC-relative jump (PIE-safe)
     );
-    UNREACHABLE_();
+    GCC_UNREACHABLE_();
 }

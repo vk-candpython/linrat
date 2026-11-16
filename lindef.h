@@ -103,7 +103,7 @@ typedef __SIZE_TYPE__        SIZE_T;
 
 /* Inform compiler that
    this code path is never reached */
-#define UNREACHABLE_() GCC_FUNC_(unreachable)()
+#define GCC_UNREACHABLE_() GCC_FUNC_(unreachable)()
 
 /* Load integer TYPE from memory at pointer (unaligned-safe) */
 #define LOAD_INT_(ptr, TYPE) ({                     \
@@ -259,7 +259,7 @@ DEC_STRUCT (sockaddr_in) {
 #define SYS_CALL_64_ENTRY_(nm, ...) ({    \
     DEC_REG(LONG, rax, nm);               \
                                           \
-    GCC_ASM_ ("syscall\n\t"               \
+    GCC_ASM_ ("syscall"                   \
         : "+a"(rax)                       \
         : __VA_ARGS__                     \
         : "memory", "cc", "rcx", "r11"    \
